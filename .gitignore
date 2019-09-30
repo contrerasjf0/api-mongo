@@ -1,0 +1,6 @@
+/*
+/api/__pycache__/*
+!/api
+!README.md
+!requirements.txt
+!.gitignore
