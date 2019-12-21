@@ -38,8 +38,8 @@ def retrieve_career_by_id(career_id):
 
 def update_career(career):
     # This function only update career's name and description
-    query = {'_id': ObjectId(career['id'])}
-    data = {'$set': {'nombre': career['nombre'], 'descripcion': career['descripcion']}}
+    query = {'_id': ObjectId(career['_id'])}
+    data = {'$set': {'nombre': career['name'], 'descripcion': career['description']}}
     return str(db.carreras.update_one(query, data).modified_count)
 
 
@@ -64,20 +64,35 @@ def delete_course_of_career(json):
 
 
 def create_course(json):
-    return str('Missing to implement')
+    return str(db.cursos.insert_one(json).inserted_id)
 
 
 def retrieve_course_by_id(id_course):
-    return str('Missing to implement')
+    query = {'_id': ObjectId(id_course)}
+    return dumps(db.cursos.find_one(query));
 
 
 def update_course(course):
     # This function only update course's name, description and classes
-    return str('Missing to implement')
+    query = {'_id': ObjectId(course['_id'])}
+    data = {
+            'name': course['name'],
+            'description': course['description'],
+            'classes': course['classes']
+            }
+    
+    modified_count = db.cursos.update_one(query,  {'$set':data}).modified_count
+
+    return str(modified_count)
 
 
 def delete_course_by_id(course_id):
-    return str('Missing to implement')
+    query = {
+        '_id': ObjectId(course_id)
+    }
+
+    delete_count = db.cursos.delete_one().delete_count
+    return str(delete_count)
 
 
 def retrieve_course_by_id_projection(id_course, projection=None):
