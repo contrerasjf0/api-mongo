@@ -20,7 +20,7 @@ def careers_func():
         return jsonify({'updated': db.update_career(request_body)})
     elif request.method == 'DELETE' and career_id is not None:
         # Delete a career using a _id 
-        return jsonify({'deleted': db.deleted_career_by_id(career_id)})
+        return jsonify({'deleted': db.delete_career_by_id(career_id)})
     elif career_id is not None:
         # Get careers by _id
         result = db.retrieve_career_by_id(career_id)
@@ -39,7 +39,7 @@ def add_course():
     if request.method == 'PUT':
         return jsonify({'updated': json.loads(db.add_course(request_body))})
     elif request.method == 'DELETE':
-        return jsonify({'deleted': json.loads(db.deleted_course_of_career(request_body))})
+        return jsonify({'deleted': json.loads(db.delete_course_of_career(request_body))})
 
 
 @bp.route('/test')

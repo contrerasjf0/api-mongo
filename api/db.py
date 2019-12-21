@@ -26,23 +26,26 @@ def collection_stats(collection_nombre):
 # -----------------Careers-------------------------
 
 
-def add_career(json):
-    return str('Missing to implement')
+def create_career(json):
+    return str(db.carreras.insert_one(json).inserted_id)
 
 
 def retrieve_career_by_id(career_id):
+    query = {'_id': ObjectId(career_id)}
 
-    return str('Missing to implement')
+    return dumps(db.carreras.find_one(query))
 
 
 def update_career(career):
     # This function only update career's name and description
-    return str('Missing to implement')
+    query = {'_id': ObjectId(career['id'])}
+    data = {'$set': {'nombre': career['nombre'], 'descripcion': career['descripcion']}}
+    return str(db.carreras.update_one(query, data).modified_count)
 
 
 def delete_career_by_id(career_id):
-
-    return str('Missing to implement')
+    query = {'_id': ObjectId(career_id) }
+    return str(db.carreras.delete_one(query))
 
 
 # Operator class
@@ -60,7 +63,7 @@ def delete_course_of_career(json):
 # -----------------Course-------------------------
 
 
-def add_course(json):
+def create_course(json):
     return str('Missing to implement')
 
 
