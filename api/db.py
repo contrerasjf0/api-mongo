@@ -54,11 +54,26 @@ def retrieve_careers(skip, limit):
 
 
 def add_course(json):
-    return str('Missing to implement')
+    projection = {'name': 1 }
+    query = {
+        '_id': ObjectId(json['id_career'])
+    }
+    course = retrieve_course_by_id_projection(json['id_course'], projection)
+    data = {
+        '$addToSet': {'courses': course}
+    }
+    
+    return str(db.carreras.update_one(query, data).modified_count)
 
 
 def delete_course_of_career(json):
-    return str('Missing to implement')
+    query = {
+        '_id': ObjectId(json['id_career'])
+    }
+    data = {
+        '$pull': {'courses': {'_id':  ObjectId(json['id_course'])}}
+    }
+    return str(db.carreras.update_one(query, data).modified_count)
 
 # -----------------Course-------------------------
 
@@ -91,12 +106,16 @@ def delete_course_by_id(course_id):
         '_id': ObjectId(course_id)
     }
 
-    delete_count = db.cursos.delete_one().delete_count
+    delete_count = db.cursos.delete_one(query).delete_count
     return str(delete_count)
 
 
 def retrieve_course_by_id_projection(id_course, projection=None):
-    return str('Missing to implement')
+    query = {
+        '_id': ObjectId(id_course)
+    }
+
+    return db.cursos.find_one(query , projection)
 
 
 def retrieve_course_by_name(name):
